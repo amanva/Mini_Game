@@ -2,7 +2,7 @@
 
 const canvas = document.getElementById('myCanvas2');
 const ctx = canvas.getContext('2d');
-CANVAS_WIDTH = canvas.width = 500;
+CANVAS_WIDTH = canvas.width = 800;
 CANVAS_HEIGHT = canvas.height = 800;
 const enemyArray = [];
 let gFrame = 0;
@@ -16,7 +16,7 @@ class Enemy {
     constructor(){
         this.image = new Image();
         this.image.src = 'enemy2.png';
-        this.speed = Math.random() * 4 + 1;
+        // this.speed = Math.random() * 4 + 0;
         this.spriteWidth = 266;
         this.spriteHeight = 188;
         this.width = this.spriteWidth/2.5;
@@ -26,8 +26,8 @@ class Enemy {
         this.frame = 0;
         this.flapspeed = Math.floor(Math.random() * 3 + 1);
         this.angle = 0;
-        this.angleSpeed = Math.random() * 2 + 0.5;
-        this.curve = Math.random() * 200 + 50;
+        this.angleSpeed = Math.random() * 1 + 0.2;
+        // this.curve = Math.random() * 200 + 50;
 
 
 
@@ -35,10 +35,10 @@ class Enemy {
         
     }
     update(){
-        this.x = this.curve * Math.sin(this.angle * Math.PI/100) + (canvas.
+        this.x = canvas.width/2.5 * Math.sin(this.angle * Math.PI/100) + (canvas.
         width/2 - this.width/2);
             
-        this.y = this.curve * Math.cos(this.angle * Math.PI/180)+ (canvas.
+        this.y = canvas.height/2.5 * Math.cos(this.angle * Math.PI/180)+ (canvas.
         height/2 - this.height/2);
         if(this.x + this.width < 0){
             this.x = canvas.width;
