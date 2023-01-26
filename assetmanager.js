@@ -19,7 +19,6 @@ class AssetManager {
         if (this.downloadQueue.length === 0) setTimeout(callback, 10);
         for (var i = 0; i < this.downloadQueue.length; i++) {
             var that = this;
-
             var path = this.downloadQueue[i];
             console.log(path);
             var ext = path.substring(path.length - 3);

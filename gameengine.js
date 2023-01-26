@@ -6,8 +6,14 @@ class GameEngine {
 
         // Everything that will be updated and drawn each frame
         this.entities = [];
-
         // Information on the input
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        this.down = false;
+        this.B = false;
+        this.A = false;
+        this.c = false;
         this.click = null;
         this.mouse = null;
         this.wheel = null;
@@ -26,10 +32,10 @@ class GameEngine {
     };
 
     start() {
-        this.running = true;
+        var that = this;
         const gameLoop = () => {
             this.loop();
-            requestAnimFrame(gameLoop, this.ctx.canvas);
+            requestAnimFrame(gameLoop, that.ctx.canvas);
         };
         gameLoop();
     };
@@ -51,7 +57,51 @@ class GameEngine {
             if (this.options.debugging) {
                 console.log("CLICK", getXandY(e));
             }
+
             this.click = getXandY(e);
+
+            //set attack
+            switch (e.which) {
+                case 1:
+                    //alert('Left Mouse button pressed.');
+                    that.attack = true;
+                    that.comboCounter += 1;
+                    break;
+                case 2:
+                    //alert('Middle Mouse button pressed.');
+                    break;
+                case 3:
+                    //alert('Right Mouse button pressed.');
+                    break;
+
+            }
+
+
+        });
+
+        //release mouse click
+        this.ctx.canvas.addEventListener("mouseup", e => {
+            if (this.options.debugging) {
+                console.log("CLICK", getXandY(e));
+            }
+
+            this.click = getXandY(e);
+
+
+            switch (e.which) {
+                case 1:
+                    //alert('Left Mouse button release.');
+                    break;
+                case 2:
+                    //alert('Middle Mouse button release.');
+                    break;
+                case 3:
+                    //alert('Right Mouse button release.');
+                    break;
+
+            }
+
+
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {
@@ -70,12 +120,69 @@ class GameEngine {
             this.rightclick = getXandY(e);
         });
 
-        this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
-        this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+        // this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
+        // this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+        var that = this;
+
+        this.ctx.canvas.addEventListener("keydown", function (e) {
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.left = true;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.right = true;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.up = true;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.down = true;
+                    break;
+                case "KeyE":
+                    that.E = true;
+                    break;
+                case "Space":
+                    that.A = true;
+                    break;
+            }
+        }, false);
+        this.ctx.canvas.addEventListener("keyup", function (e) {
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.left = false;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.right = false;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.up = false;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.down = false;
+                    break;
+                case "KeyE":
+                    that.E = false;
+                    break;
+                case "Space":
+                    that.A = false;
+                    break;
+            }
+        }, false);
     };
 
     addEntity(entity) {
         this.entities.push(entity);
+    };
+    addEntityToBegin(entity) {
+        this.entities.unshift(entity);
     };
 
     draw() {
