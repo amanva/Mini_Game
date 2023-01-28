@@ -12,4 +12,8 @@ class BoundingBox {
         if (this.right > oth.left && this.left < oth.right && this.top < oth.bottom && this.bottom > oth.top) return true;
         return false;
     };
+    draw(ctx){
+        ctx.strokeStyle = 'Red';
+        ctx.strokeRect(this.left, this.top, this.width, this.height);
+    };
 };

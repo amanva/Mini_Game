@@ -8,14 +8,14 @@ class Fruit{
         this.dead = false;
         this.loadAnimations();
         this.updateBB();
-    }
+    } 
     loadAnimations(){
-        this.animations[0] = new Animator(this.spritesheet, 0, 0, 16, 16, 1, 0.10, 0, false, true);
-        this.animations[1] = new Animator(this.spritesheet, 16, 0, 16, 16, 1, 0.10, 0, false, true);
+        this.animations[0] = new Animator(this.spritesheet, 0, 0, 16, 16, 3, 0.30, 0, false, true, true);
+        this.animations[1] = new Animator(this.spritesheet, 49, 0, 13, 13, 1, 0.10, 0, false, true, false);
     };
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, 16 * PARAMS.SCALE, 16 * PARAMS.SCALE);
+        this.BB = new BoundingBox(this.x, this.y, 40, 40);
         
     };
     update(){
@@ -40,7 +40,7 @@ class Fruit{
 
 
     draw(ctx){
-        this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x, this.y, PARAMS.SCALE);
+        this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2.5);
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     };

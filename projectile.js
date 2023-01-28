@@ -5,8 +5,9 @@ class Projectile{
         this.spritesheet = assetMangager.getAsset("./mageBall.png");
         this.speed = 200;
         this.animations = [];
-        this.dead = false;
-        this.animations.push(new Animator(this.spritesheet, 175, 255, 6, 6, 1, 0.1, 0, false, true));
+        this.velocity = { x: (this.game.click.x - this.x), y: (this.game.click.y - this.y)};
+        this.animations.push(new Animator(this.spritesheet, 175, 255, 6, 6, 1, 0.1, 0, false, true, false));
+
         this.updateBB();
     };
     updateBB() {
@@ -15,25 +16,39 @@ class Projectile{
         
     };
     update(){
-        if(this.dead){
-            this.removeFromWorld = true;
-        }
-        this.y -= this.speed * this.game.clockTick;
+        const TICK = this.game.clockTick;
+
+        this.x += this.velocity.x * TICK;
+        this.y += this.velocity.y * TICK;
         this.updateBB();
         var that = this;
         this.game.entities.forEach(function (entity) {
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if ((entity instanceof Fruit) && that.BB.collide(entity.BB)) {
-                   that.dead = true;
+                that.game.camera.score++;
+                   that.removeFromWorld = true;
                    entity.removeFromWorld = true;
+                }
+                if(entity instanceof Ground && that.BB.collide(entity.BB)) {
+                    that.removeFromWorld = true;
                 }
                     }
             });
+            
+            if(this.y < 0){
+                this.removeFromWorld = true;                
+            }
+            if(this.x < -10){
+                this.removeFromWorld = true; 
+            }
+            // if(this.x > 800){
+            //     this.removeFromWorld = true; 
+            // }
+        
     };
 
     draw(ctx){
         this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 4);
-        ctx.strokeStyle = 'Red';
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        this.BB.draw(ctx);
     };
 };

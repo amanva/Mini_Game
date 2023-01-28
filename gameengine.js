@@ -14,6 +14,7 @@ class GameEngine {
         this.B = false;
         this.A = false;
         this.c = false;
+        this.attack;
         this.click = null;
         this.mouse = null;
         this.wheel = null;
@@ -60,12 +61,20 @@ class GameEngine {
 
             this.click = getXandY(e);
 
+
+        });
+        this.ctx.canvas.addEventListener("click", e => {
+            if (this.options.debugging) {
+                console.log("CLICK", getXandY(e));
+            }
+
+            this.click = getXandY(e);
+
             //set attack
             switch (e.which) {
                 case 1:
                     //alert('Left Mouse button pressed.');
-                    that.attack = true;
-                    that.comboCounter += 1;
+                    this.attack = true;
                     break;
                 case 2:
                     //alert('Middle Mouse button pressed.');
@@ -78,14 +87,13 @@ class GameEngine {
 
 
         });
-
         //release mouse click
         this.ctx.canvas.addEventListener("mouseup", e => {
             if (this.options.debugging) {
                 console.log("CLICK", getXandY(e));
             }
 
-            this.click = getXandY(e);
+            // this.click = getXandY(e);
 
 
             switch (e.which) {
@@ -118,6 +126,7 @@ class GameEngine {
             }
             e.preventDefault(); // Prevent Context Menu
             this.rightclick = getXandY(e);
+            this.attack = true;
         });
 
         // this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
@@ -193,6 +202,7 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
+        this.camera.draw(this.ctx);
     };
 
     update() {
@@ -205,6 +215,7 @@ class GameEngine {
                 entity.update();
             }
         }
+        // this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {

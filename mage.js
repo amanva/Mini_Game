@@ -10,7 +10,6 @@ class Mage {
         this.fallAcc = 200;
         this.facing = 0; 
         this.state = 0;
-        this.playerJump = false;
         this.shoot = false;
         this.elapsedTime = 0;
         this.dead = false;
@@ -27,17 +26,17 @@ class Mage {
         }
 
         // right
-        this.animations[0][0] = new Animator(this.spritesheetMage, 630, 335, 60, 52, 8, 0.20, 84, false, true);
+        this.animations[0][0] = new Animator(this.spritesheetMage, 630, 335, 60, 52, 8, 0.20, 84, false, true, false);
         // left
-        this.animations[0][1] = new Animator(this.spritesheetMage, 613, 190, 60, 52, 8, 0.20, 84, false, true);
+        this.animations[0][1] = new Animator(this.spritesheetMage, 613, 190, 60, 52, 8, 0.20, 84, false, true, false);
         // up
-        this.animations[0][2] = new Animator(this.spritesheetMage, 629, 1055, 60, 52, 1, 0.20, 84, false, true);
+        this.animations[0][2] = new Animator(this.spritesheetMage, 629, 1055, 60, 52, 1, 0.20, 84, false, true, false);
         // dead down
-        this.animations[1][3] = new Animator(this.spritesheetMage, 1765, 630, 70, 52, 1, 0.10, 0, false, true);
+        this.animations[1][3] = new Animator(this.spritesheetMage, 1765, 630, 70, 52, 1, 0.10, 0, false, true, false);
         // shoot
         // this.animations[1][2] = new Animator(this.spritesheetMage, 1205, 1051, 60, 52, 4, 0.2, 84, false, true);
 
-        this.shootAnim = new Animator(this.spritesheetMage, 1205, 1051, 60, 52, 4, 0.05, 84, false, true);
+        this.shootAnim = new Animator(this.spritesheetMage, 1205, 1051, 60, 52, 4, 0.05, 84, false, true, false);
 
         
 
@@ -68,9 +67,10 @@ class Mage {
             if(this.shoot){
                 this.velocity.x = 0;
                 if(this.elapsedTime > 0.3 && this.shootAnim.isAlmostDone(TICK)){
-                    this.game.addEntityToBegin(new Projectile(this.game, this.x, this.y));
+                    this.game.addEntityToBegin(new Projectile(this.game, this.x+15, this.y));
                     this.elapsedTime = 0;
                     this.shoot = false;
+                    this.game.attack = false;
                 }
                 
             }
@@ -86,12 +86,10 @@ class Mage {
                     if(!this.game.left && !this.game.right){
                         this.velocity.x = 0;
                     }     
-                if(this.game.E){
+                if(this.game.attack){
                     this.shoot = true;
                  }
             }
-            if (this.velocity.y >= MAX_FALL) this.velocity.y = MAX_FALL;
-            if (this.velocity.y <= -200) this.velocity.y = -200;
 
             if (this.velocity.x >= ACC_RUN) this.velocity.x = ACC_RUN;
             if (this.velocity.x <= -ACC_RUN) this.velocity.x = -ACC_RUN;
@@ -101,19 +99,19 @@ class Mage {
             this.y += this.velocity.y * TICK * PARAMS.SCALE;
             this.updateBB();
 
-            var that = this;
-            this.game.entities.forEach(function (entity) {
-                if (entity.BB && that.BB.collide(entity.BB)) {
-                    if (that.velocity.y > 0) { // falling
-                        if ((entity instanceof Ground) && (that.lastBB.bottom) >= entity.BB.top) {
-                            that.playerJump = true;
-                            that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
-                            that.velocity.y === 0;
-                            }
-                            that.updateBB();
-                        }
-                    }
-                });
+            // var that = this;
+            // this.game.entities.forEach(function (entity) {
+            //     if (entity.BB && that.BB.collide(entity.BB)) {
+            //         if (that.velocity.y > 0) { // falling
+            //             if ((entity instanceof Ground)) {
+            //                 console.log(that.y);
+            //                 that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
+            //                 that.velocity.y === 0;  
+            //                 }
+            //                 that.updateBB();
+            //             }
+            //         }
+            //     });
 
                 if(this.velocity.x === 0){
                     this.state = 0;
@@ -128,23 +126,20 @@ class Mage {
                 else{
                     this.state = 0;
                 }
-            // } else {
-            //     this.state = 1;
-            //     this.facing = 2;
-            // }
             if(this.x < -20){
                 this.x = -20;
             }
             if(this.x >= 750){
                 this.x = 750;
             }
-            if(this.y <= 0){
-                this.y = 0;
+            if(this.y >= 600){
+                this.y = 600;
             }
+            // console.log(this.y);
             // update direction
             if (this.velocity.x < 0) this.facing = 1;
             if (this.velocity.x > 0) this.facing = 0;
-            
+            // console.log(this.x + " " + this.y);
             
     };
 

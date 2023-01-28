@@ -4,7 +4,7 @@ class Ground {
 
         this.spritesheet = assetMangager.getAsset("./layer-5.png");
 
-        this.BB = new BoundingBox(this.x+60, this.y, this.w, this.h);
+        this.BB = new BoundingBox(this.x, this.y, this.w, this.h);
         // this.leftBB = new BoundingBox(this.x, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
         // this.rightBB = new BoundingBox(this.x + this.w - PARAMS.BLOCKWIDTH, this.y, PARAMS.BLOCKWIDTH, PARAMS.BLOCKWIDTH * 2)
     };
