@@ -14,7 +14,7 @@ class GameEngine {
         this.B = false;
         this.A = false;
         this.c = false;
-        this.attack;
+        this.attack = false;
         this.click = null;
         this.mouse = null;
         this.wheel = null;
@@ -60,54 +60,15 @@ class GameEngine {
             }
 
             this.click = getXandY(e);
-
-
-        });
-        this.ctx.canvas.addEventListener("click", e => {
-            if (this.options.debugging) {
-                console.log("CLICK", getXandY(e));
-            }
-
-            this.click = getXandY(e);
-
-            //set attack
-            switch (e.which) {
-                case 1:
-                    //alert('Left Mouse button pressed.');
-                    this.attack = true;
-                    break;
-                case 2:
-                    //alert('Middle Mouse button pressed.');
-                    break;
-                case 3:
-                    //alert('Right Mouse button pressed.');
-                    break;
-
-            }
-
+            this.attack = true;
 
         });
-        //release mouse click
         this.ctx.canvas.addEventListener("mouseup", e => {
             if (this.options.debugging) {
                 console.log("CLICK", getXandY(e));
             }
 
-            // this.click = getXandY(e);
-
-
-            switch (e.which) {
-                case 1:
-                    //alert('Left Mouse button release.');
-                    break;
-                case 2:
-                    //alert('Middle Mouse button release.');
-                    break;
-                case 3:
-                    //alert('Right Mouse button release.');
-                    break;
-
-            }
+           this.attack = false;
 
 
         });
@@ -126,7 +87,6 @@ class GameEngine {
             }
             e.preventDefault(); // Prevent Context Menu
             this.rightclick = getXandY(e);
-            this.attack = true;
         });
 
         // this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
@@ -193,7 +153,18 @@ class GameEngine {
     addEntityToBegin(entity) {
         this.entities.unshift(entity);
     };
-
+    removeEntities() {
+        this.entities.forEach((entity) => {
+            entity.removeFromWorld = true
+        })
+    }
+    removeSpecEntity() {
+        this.entities.forEach((entity) => {
+            if(entity instanceof Projectile){
+                entity.removeFromWorld = true;
+            }
+        })
+    }
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);

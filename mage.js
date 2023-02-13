@@ -6,7 +6,7 @@ class Mage {
         this.velocity = { x: 0, y: 0 };
         this.spritesheetMage = assetMangager.getAsset("./wizard.png");
         // this.animator = new Animator(assetMangager.getAsset("./megamanfull.png"), 0, 0, 49, 49, 8, 0.10, 0);
-        this.speed = 200;
+        this.speed = 300;
         this.fallAcc = 200;
         this.facing = 0; 
         this.state = 0;
@@ -52,10 +52,7 @@ class Mage {
         this.elapsedTime += this.game.clockTick;
         const TICK = this.game.clockTick;
         
-        const ACC_RUN = 153;
-
-
-        const MAX_FALL = 270;
+        const ACC_RUN = 200;
 
         // if (this.dead) {
         //     this.velocity.y += RUN_FALL * TICK;
@@ -93,26 +90,10 @@ class Mage {
 
             if (this.velocity.x >= ACC_RUN) this.velocity.x = ACC_RUN;
             if (this.velocity.x <= -ACC_RUN) this.velocity.x = -ACC_RUN;
-            
+            // this.updateBB();
             // update position
             this.x += this.velocity.x * TICK * PARAMS.SCALE;
             this.y += this.velocity.y * TICK * PARAMS.SCALE;
-            this.updateBB();
-
-            // var that = this;
-            // this.game.entities.forEach(function (entity) {
-            //     if (entity.BB && that.BB.collide(entity.BB)) {
-            //         if (that.velocity.y > 0) { // falling
-            //             if ((entity instanceof Ground)) {
-            //                 console.log(that.y);
-            //                 that.y = entity.BB.top - PARAMS.BLOCKHEIGHT;
-            //                 that.velocity.y === 0;  
-            //                 }
-            //                 that.updateBB();
-            //             }
-            //         }
-            //     });
-
                 if(this.velocity.x === 0){
                     this.state = 0;
                     this.facing = 2;
@@ -139,7 +120,7 @@ class Mage {
             // update direction
             if (this.velocity.x < 0) this.facing = 1;
             if (this.velocity.x > 0) this.facing = 0;
-            // console.log(this.x + " " + this.y);
+            // console.log(this.BB.x + " " + this.BB.y);
             
     };
 
@@ -151,8 +132,8 @@ class Mage {
          else {
             this.animations[this.state][this.facing].drawFrame(this.game.clockTick, ctx, this.x , this.y, PARAMS.SCALE);
         }
-            ctx.strokeStyle = 'Red';
-            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+            // ctx.strokeStyle = 'Red';
+            // ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
     };
 
 

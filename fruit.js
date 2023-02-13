@@ -1,21 +1,30 @@
 class Fruit{
-    constructor(game, x, y){
-        Object.assign(this, { game, x, y });
+    constructor(game, x, y, speed){
+        Object.assign(this, { game, x, y, speed});
         this.spritesheet = assetMangager.getAsset("./Fruit.png");
         this.animations = [];
-        this.state = 0;
-        this.speed = 100;
+        this.rand = Math.floor(Math.random() * 5);
+        this.state = this.rand;
+        this.speed = speed;
         this.dead = false;
         this.loadAnimations();
         this.updateBB();
     } 
     loadAnimations(){
-        this.animations[0] = new Animator(this.spritesheet, 0, 0, 16, 16, 3, 0.30, 0, false, true, true);
-        this.animations[1] = new Animator(this.spritesheet, 49, 0, 13, 13, 1, 0.10, 0, false, true, false);
+        // red apple
+        this.animations[0] = new Animator(this.spritesheet, 0, 0, 16, 16, 1, 0.30, 0, false, true, true);
+        // purple grape
+        this.animations[1] = new Animator(this.spritesheet, 49, 0, 16, 16, 1, 0.30, 0, false, true, true);
+        // green banana
+        this.animations[2] = new Animator(this.spritesheet, 95, 31, 16, 16, 1, 0.30, 0, false, true, true);
+        // green apple
+        this.animations[3] = new Animator(this.spritesheet, 16, 0, 16, 16, 1, 0.30, 0, false, true, true);
+        // green grape
+        this.animations[4] = new Animator(this.spritesheet, 65, 0, 16, 16, 1, 0.30, 3, false, true, true);
     };
     updateBB() {
         this.lastBB = this.BB;
-        this.BB = new BoundingBox(this.x, this.y, 40, 40);
+        this.BB = new BoundingBox(this.x+3, this.y+10, 30, 25);
         
     };
     update(){
@@ -40,6 +49,7 @@ class Fruit{
 
 
     draw(ctx){
+        // console.log(this.state);
         this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2.5);
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
