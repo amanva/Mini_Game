@@ -43,12 +43,18 @@ class Projectile{
             if(this.x < -10){
                 this.removeFromWorld = true; 
             }
+
+            if(this.x > 800){
+                this.removeFromWorld = true;  
+            }
         
     };
 
     draw(ctx){
         this.animations[0].drawFrame(this.game.clockTick, ctx, this.x, this.y, 4);
+        if(debug){
         this.BB.draw(ctx);
+        }
     };
     
 };

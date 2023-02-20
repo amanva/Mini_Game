@@ -40,6 +40,9 @@ class Fruit{
             if (entity.BB && that.BB.collide(entity.BB)) {
                     if ((entity instanceof Ground) && (that.lastBB.bottom) >= entity.BB.top) {
                             that.dead = true;
+                            if(that.game.camera.lives > 0){
+                            that.game.camera.lives--;
+                            }
                         }
                         that.updateBB();
                     }
@@ -51,7 +54,9 @@ class Fruit{
     draw(ctx){
         // console.log(this.state);
         this.animations[this.state].drawFrame(this.game.clockTick, ctx, this.x, this.y, 2.5);
+        if(debug){
         ctx.strokeStyle = 'Red';
         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     };
 };3

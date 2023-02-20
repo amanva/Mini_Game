@@ -11,9 +11,8 @@ class GameEngine {
         this.right = false;
         this.up = false;
         this.down = false;
-        this.B = false;
+        this.R = false;
         this.A = false;
-        this.c = false;
         this.attack = false;
         this.click = null;
         this.mouse = null;
@@ -111,8 +110,8 @@ class GameEngine {
                 case "KeyS":
                     that.down = true;
                     break;
-                case "KeyE":
-                    that.E = true;
+                case "KeyR":
+                    that.R = true;
                     break;
                 case "Space":
                     that.A = true;
@@ -137,8 +136,8 @@ class GameEngine {
                 case "KeyS":
                     that.down = false;
                     break;
-                case "KeyE":
-                    that.E = false;
+                case "KeyR":
+                    that.R = false;
                     break;
                 case "Space":
                     that.A = false;
@@ -155,7 +154,9 @@ class GameEngine {
     };
     removeEntities() {
         this.entities.forEach((entity) => {
-            entity.removeFromWorld = true
+            if(!(entity instanceof SceneManager)){
+            entity.removeFromWorld = true;
+            }
         })
     }
     removeSpecEntity() {

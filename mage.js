@@ -121,6 +121,9 @@ class Mage {
             if (this.velocity.x < 0) this.facing = 1;
             if (this.velocity.x > 0) this.facing = 0;
             // console.log(this.BB.x + " " + this.BB.y);
+            if(this.game.camera.lose){
+                this.removeFromWorld = true;
+            }
             
     };
 

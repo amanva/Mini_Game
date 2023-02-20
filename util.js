@@ -32,3 +32,7 @@ const PARAMS = {
     BITWIDTH: 60,
     BITHEIGHT: 30
 };
+let debug = false;
+function debugOn() {
+    debug = !debug;
+}
