@@ -63,7 +63,7 @@ class Mage {
             this.velocity.y += this.fallAcc * TICK;
             if(this.shoot){
                 this.velocity.x = 0;
-                if(this.elapsedTime > 0.3 && this.shootAnim.isAlmostDone(TICK)){
+                if(this.elapsedTime > 0.2 && this.shootAnim.isAlmostDone(TICK)){
                     this.game.addEntityToBegin(new Projectile(this.game, this.x+15, this.y));
                     this.elapsedTime = 0;
                     this.shoot = false;

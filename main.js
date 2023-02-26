@@ -6,6 +6,8 @@ assetMangager.queueDownload("./Fruit.png");
 assetMangager.queueDownload("./wizard.png");
 assetMangager.queueDownload("./mageBall.png");
 assetMangager.queueDownload("./background.png");
+assetMangager.queueDownload("./explode.png");
+assetMangager.queueDownload("./explode2.png");
 assetMangager.queueDownload("./title.png");
 
 
