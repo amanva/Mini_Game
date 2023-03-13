@@ -29,6 +29,7 @@ class Projectile{
             if (entity.BB && that.BB.collide(entity.BB)) {
                 if ((entity instanceof Fruit) && that.BB.collide(entity.BB) && !that.hit) {
                    that.hit = true;
+                   assetMangager.playAsset("./splat.mp3");
                    that.game.camera.score++;
                    that.removeFromWorld = true;
                    entity.removeFromWorld = true;

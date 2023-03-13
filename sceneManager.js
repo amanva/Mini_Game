@@ -14,7 +14,9 @@ class SceneManager {
         this.showTime3 = 3;
         this.level1 = 30;
         this.level2 = 60;
+        this.myCursor = new Cursor(this.game);
         this.setShow = false;
+        this.playMusicOnce = false;
     };
     update() {
         this.lose = (this.lives <= 0);
@@ -62,6 +64,21 @@ class SceneManager {
             }
         }
     }
+    if(!this.title && !this.playMusicOnce){
+        assetMangager.pauseBackgroundMusic();
+        assetMangager.playAsset("./back.wav");
+        this.playMusicOnce = true;
+    }
+    this.myCursor.update();
+    this.updateAudio();
+    };
+    updateAudio() {
+        var mute = document.getElementById("mute").checked;
+        var volume = document.getElementById("volume").value;
+
+        assetMangager.muteAudio(mute);
+        assetMangager.adjustVolume(volume);
+
     };
     levelOne(){
         if(this.elapsedTime > 1){
@@ -91,9 +108,14 @@ class SceneManager {
         this.score++;
     }
 
-    draw(ctx) {
+    draw(ctx) {      
         ctx.fillStyle = "Yellow";
-            ctx.font = "70px Arial";
+        ctx.font = "70px Arial";
+            if(!this.game.activeCanvas && !this.title){
+                ctx.save();
+                ctx.fillText("Paused!",PARAMS.CANVAS_WIDTH/2-140,PARAMS.CANVAS_HEIGHT/2);
+                ctx.restore();
+            } 
         if((this.score <= this.level1) && (this.showTime >= 0)){
             ctx.fillText("Level 1", 290, 350);
         }
@@ -116,7 +138,7 @@ class SceneManager {
             ctx.fillText("GAME OVER!", 250, 350);
             ctx.fillText("Press R to restart", 220, 420);
         }
-        // console.log(this.score);
+        this.myCursor.draw(ctx);
 };
 
 };

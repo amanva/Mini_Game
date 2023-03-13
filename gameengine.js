@@ -18,7 +18,7 @@ class GameEngine {
         this.mouse = null;
         this.wheel = null;
         this.keys = {};
-
+        this.activeCanvas = true;
         // Options and the Details
         this.options = options || {
             debugging: false,
@@ -27,6 +27,7 @@ class GameEngine {
 
     init(ctx) {
         this.ctx = ctx;
+        document.getElementById("myCanvas").style.cursor = "none";
         this.startInput();
         this.timer = new Timer();
     };
@@ -144,6 +145,15 @@ class GameEngine {
                     break;
             }
         }, false);
+        function isFocused() {
+            if (document.getElementById("myCanvas") === document.activeElement) {
+                that.activeCanvas = true;
+            }
+            else {
+                that.activeCanvas = false;
+            }
+        }
+        setInterval(isFocused, 300);
     };
 
     addEntity(entity) {
@@ -178,6 +188,10 @@ class GameEngine {
     };
 
     update() {
+        if(!this.activeCanvas){
+            this.gamePaused();
+        }
+        else{
         let entitiesCount = this.entities.length;
 
         for (let i = 0; i < entitiesCount; i++) {
@@ -187,15 +201,21 @@ class GameEngine {
                 entity.update();
             }
         }
-        // this.camera.update();
+        this.camera.update();
 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
                 this.entities.splice(i, 1);
             }
         }
+    }
     };
-
+    gamePaused(){
+        this.up = false;
+        this.down = false;
+        this.left = false;
+        this.right = false;
+    }
     loop() {
         this.clockTick = this.timer.tick();
         this.update();
